@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<mixer>
+    <!-- These are the initial mixer settings -->
+    <ctl name="Voice Rx Device Mute" id="0" value="0" />
+    <ctl name="Voice Tx Mute" id="0" value="0" />
+    <ctl name="Voice Rx Gain" id="0" value="20" />
+    <ctl name="Voice Tx Gain" id="0" value="14" />
+    <ctl name="Voip Tx Mute" id="0" value="0" />
+    <ctl name="Voip Rx Gain" id="0" value="20" />
+    <ctl name="Voip Tx Gain" id="0" value="10" />
+    <ctl name="Voip Mode Config" value="12" />
+    <ctl name="Voip Rate Config" value="0" />
+    <ctl name="Voip Evrc Min Max Rate Config" id="0" value="1" />
+    <ctl name="Voip Evrc Min Max Rate Config" id="1" value="4" />
+    <ctl name="Voip Dtx Mode" value="0" />
+    <ctl name="TTY Mode" value="Off" />
+
+    <!-- Speaker path -->
+    <path name="speaker">
+        <ctl name="RX1 MIX1 INP1" value="RX1" />
+        <ctl name="RX2 MIX1 INP1" value="RX2" />
+        <ctl name="RDAC5 MUX" value="DEM3_INV" />
+        <ctl name="SPK DRV Volume" value="8" />
+    </path>
+
+    <!-- Headphone path -->
+    <path name="headphones">
+        <ctl name="RX1 MIX1 INP1" value="RX1" />
+        <ctl name="RX2 MIX1 INP1" value="RX2" />
+        <ctl name="HPHL DAC Switch" value="1" />
+        <ctl name="HPHR DAC Switch" value="1" />
+    </path>
+
+    <!-- Handset mic path -->
+    <path name="handset-mic">
+        <ctl name="DEC1 MUX" value="ADC1" />
+        <ctl name="ADC1 Volume" value="12" />
+    </path>
+
+    <!-- Speaker mic path -->
+    <path name="speaker-mic">
+        <ctl name="DEC1 MUX" value="ADC1" />
+        <ctl name="ADC1 Volume" value="12" />
+    </path>
+
+    <!-- Headset mic path -->
+    <path name="headset-mic">
+        <ctl name="DEC1 MUX" value="ADC2" />
+        <ctl name="ADC2 Volume" value="12" />
+    </path>
+</mixer>

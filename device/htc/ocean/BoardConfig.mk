@@ -1,0 +1,167 @@
+#
+# Copyright (C) 2024 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+DEVICE_PATH := device/htc/ocean
+
+# Architecture
+TARGET_ARCH := arm64
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_CPU_ABI := arm64-v8a
+TARGET_CPU_ABI2 :=
+TARGET_CPU_VARIANT := generic
+TARGET_CPU_VARIANT_RUNTIME := cortex-a73
+
+TARGET_2ND_ARCH := arm
+TARGET_2ND_ARCH_VARIANT := armv8-a
+TARGET_2ND_CPU_ABI := armeabi-v7a
+TARGET_2ND_CPU_ABI2 := armeabi
+TARGET_2ND_CPU_VARIANT := generic
+TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a73
+
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := msm8998
+TARGET_NO_BOOTLOADER := true
+
+# Platform
+TARGET_BOARD_PLATFORM := msm8998
+TARGET_BOARD_PLATFORM_GPU := qcom-adreno540
+
+# Kernel
+BOARD_KERNEL_BASE := 0x00000000
+BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200,n8 androidboot.console=ttyMSM0
+BOARD_KERNEL_CMDLINE += androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x237
+BOARD_KERNEL_CMDLINE += ehci-hcd.park=3 lpm_levels.sleep_disabled=1
+BOARD_KERNEL_CMDLINE += sched_enable_hmp=1 sched_enable_power_aware=1
+BOARD_KERNEL_CMDLINE += service_locator.enable=1 swiotlb=2048
+BOARD_KERNEL_CMDLINE += androidboot.configfs=true
+BOARD_KERNEL_CMDLINE += androidboot.usbcontroller=a800000.dwc3
+BOARD_KERNEL_CMDLINE += loop.max_part=7
+BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
+BOARD_KERNEL_PAGESIZE := 4096
+BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
+BOARD_RAMDISK_OFFSET := 0x02000000
+TARGET_KERNEL_SOURCE := kernel/htc/msm8998
+TARGET_KERNEL_CONFIG := ocean_defconfig
+TARGET_KERNEL_ARCH := arm64
+TARGET_KERNEL_HEADER_ARCH := arm64
+
+# QCOM Hardware
+BOARD_USES_QCOM_HARDWARE := true
+
+# Audio
+BOARD_USES_ALSA_AUDIO := true
+USE_CUSTOM_AUDIO_POLICY := 1
+AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS := true
+AUDIO_FEATURE_ENABLED_VBAT_MONITOR := true
+AUDIO_FEATURE_ENABLED_ANC_HEADSET := true
+AUDIO_FEATURE_ENABLED_COMPRESS_VOIP := true
+AUDIO_FEATURE_ENABLED_EXTN_FORMATS := true
+AUDIO_FEATURE_ENABLED_FLAC_OFFLOAD := true
+AUDIO_FEATURE_ENABLED_FLUENCE := true
+AUDIO_FEATURE_ENABLED_HFP := true
+AUDIO_FEATURE_ENABLED_KPI_OPTIMIZE := true
+AUDIO_FEATURE_ENABLED_PCM_OFFLOAD := true
+AUDIO_FEATURE_ENABLED_PCM_OFFLOAD_24 := true
+AUDIO_FEATURE_ENABLED_PROXY_DEVICE := true
+
+# Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_QCOM := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
+
+# Camera
+TARGET_USES_QTI_CAMERA_DEVICE := true
+USE_DEVICE_SPECIFIC_CAMERA := true
+
+# Display
+TARGET_USES_HWC2 := true
+TARGET_USES_GRALLOC1 := true
+TARGET_USES_ION := true
+MAX_VIRTUAL_DISPLAY_DIMENSION := 4096
+NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+
+# Encryption
+TARGET_HW_DISK_ENCRYPTION := true
+
+# Filesystem
+TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/config.fs
+
+# GPS
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
+BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true
+
+# HIDL
+DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
+DEVICE_MATRIX_FILE := $(DEVICE_PATH)/compatibility_matrix.xml
+
+# Partitions
+BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3758096384
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 120426835968
+BOARD_VENDORIMAGE_PARTITION_SIZE := 1073741824
+BOARD_FLASH_BLOCK_SIZE := 262144
+BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
+TARGET_COPY_OUT_VENDOR := vendor
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
+
+# Power
+TARGET_POWERHAL_MODE_EXT := $(DEVICE_PATH)/power/power-mode.cpp
+
+# Properties
+TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
+TARGET_VENDOR_PROP += $(DEVICE_PATH)/vendor.prop
+
+# Recovery
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.qcom
+BOARD_HAS_LARGE_FILESYSTEM := true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+
+# RIL
+ENABLE_VENDOR_RIL_SERVICE := true
+
+# SELinux
+include device/qcom/sepolicy-legacy-um/SEPolicy.mk
+BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/private
+SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/public
+
+# Security
+VENDOR_SECURITY_PATCH := 2019-12-05
+
+# Treble
+BOARD_VNDK_VERSION := current
+PRODUCT_FULL_TREBLE_OVERRIDE := true
+
+# Verified Boot
+BOARD_AVB_ENABLE := true
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
+
+# WiFi
+BOARD_WLAN_DEVICE := qcwcn
+BOARD_HOSTAPD_DRIVER := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+BOARD_WPA_SUPPLICANT_DRIVER := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+WIFI_DRIVER_FW_PATH_AP := "ap"
+WIFI_DRIVER_FW_PATH_STA := "sta"
+WIFI_DRIVER_FW_PATH_P2P := "p2p"
+WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
+WPA_SUPPLICANT_VERSION := VER_0_8_X
+
+# Inherit from the proprietary version
+include vendor/htc/ocean/BoardConfigVendor.mk

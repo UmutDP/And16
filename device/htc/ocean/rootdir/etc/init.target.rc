@@ -1,0 +1,89 @@
+# Copyright (c) 2013-2017, The Linux Foundation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#     * Neither the name of The Linux Foundation nor the names of its
+#       contributors may be used to endorse or promote products derived
+#       from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+# BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+# BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+# OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+# IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#
+
+on early-init
+    mkdir /firmware 0771 system system
+    mkdir /bt_firmware 0771 system system
+    mkdir /dsp 0771 media media
+
+on fs
+    wait /dev/block/platform/soc/${ro.boot.bootdevice}
+    symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    mount_all /vendor/etc/fstab.qcom --early
+
+on init
+    write /dev/stune/foreground/schedtune.sched_boost_no_override 1
+    write /dev/stune/top-app/schedtune.sched_boost_no_override 1
+    write /dev/stune/schedtune.colocate 0
+    write /dev/stune/background/schedtune.colocate 0
+    write /dev/stune/system-background/schedtune.colocate 0
+    write /dev/stune/foreground/schedtune.colocate 0
+    write /dev/stune/top-app/schedtune.colocate 1
+    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
+
+on post-fs
+    # Set permissions for FPC fingerprint
+    chown system system /sys/devices/soc/soc:fpc1020/irq
+    chown system system /sys/devices/soc/soc:fpc1020/wakeup_enable
+
+on post-fs-data
+    # Create directory for TZ Apps
+    mkdir /data/vendor/misc/qsee 0770 system system
+
+on boot
+    # Update foreground and background cpusets
+    # Reserve CPU 3 for the top app and camera daemon
+    write /dev/cpuset/foreground/cpus 0-2,4-7
+    write /dev/cpuset/foreground/boost/cpus 0-2,4-7
+    write /dev/cpuset/background/cpus 0-1
+    write /dev/cpuset/system-background/cpus 0-3
+    write /dev/cpuset/top-app/cpus 0-7
+    write /dev/cpuset/camera-daemon/cpus 0-3
+
+    # Add a cpuset for the camera daemon
+    # We want all cores for camera
+    mkdir /dev/cpuset/camera-daemon 0750 root system
+    write /dev/cpuset/camera-daemon/cpus 0-7
+    write /dev/cpuset/camera-daemon/mems 0
+    chown system system /dev/cpuset/camera-daemon/tasks
+    chmod 0660 /dev/cpuset/camera-daemon/tasks
+
+on property:vendor.post_boot.parsed=1
+    # Setup final blkio
+    # value for group_idle is us
+    write /dev/blkio/blkio.weight 1000
+    write /dev/blkio/background/blkio.weight 200
+    write /dev/blkio/blkio.group_idle 2000
+    write /dev/blkio/background/blkio.group_idle 0
+
+service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
+    class core
+    user root
+    group root
+    disabled

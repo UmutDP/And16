@@ -1,0 +1,56 @@
+# All unpinned blobs below are extracted from HTC U11 Ultra (ocean)
+# HTC/htc_ocndugl_00531/htc_ocndugl:8.0.0/OPR1.170623.032/1038008.3:user/release-keys
+
+# ACDB
+vendor/etc/acdbdata/Forte/Forte_Bluetooth_cal.acdb
+vendor/etc/acdbdata/Forte/Forte_General_cal.acdb
+vendor/etc/acdbdata/Forte/Forte_Global_cal.acdb
+vendor/etc/acdbdata/Forte/Forte_Handset_cal.acdb
+vendor/etc/acdbdata/Forte/Forte_Hdmi_cal.acdb
+vendor/etc/acdbdata/Forte/Forte_Headset_cal.acdb
+vendor/etc/acdbdata/Forte/Forte_Speaker_cal.acdb
+
+# Audio
+vendor/lib/libacdb-fts.so
+vendor/lib/libacdbloader.so
+vendor/lib/libacdbrtac.so
+vendor/lib/libadiertac.so
+vendor/lib/libaudcal.so
+vendor/lib/libvoiceprint.so
+
+# Bluetooth
+vendor/lib64/hw/android.hardware.bluetooth@1.0-impl-qti.so
+
+# Camera
+vendor/lib/libactuator_dw9800w_camcorder.so
+vendor/lib/libactuator_dw9800w_camera.so
+
+# Graphics
+vendor/lib/egl/eglSubDriverAndroid.so
+vendor/lib/egl/libEGL_adreno.so
+vendor/lib/egl/libGLESv1_CM_adreno.so
+vendor/lib/egl/libGLESv2_adreno.so
+vendor/lib/egl/libq3dtools_adreno.so
+vendor/lib/egl/libq3dtools_esx.so
+vendor/lib/egl/libQTapGLES.so
+vendor/lib64/egl/eglSubDriverAndroid.so
+vendor/lib64/egl/libEGL_adreno.so
+vendor/lib64/egl/libGLESv1_CM_adreno.so
+vendor/lib64/egl/libGLESv2_adreno.so
+vendor/lib64/egl/libq3dtools_adreno.so
+vendor/lib64/egl/libq3dtools_esx.so
+vendor/lib64/egl/libQTapGLES.so
+
+# Perf
+vendor/lib/libqti-perfd-client.so
+vendor/lib64/libqti-perfd-client.so
+
+# Sensors
+vendor/lib/sensors.ssc.so
+vendor/lib64/sensors.ssc.so
+
+# Thermal
+vendor/bin/thermal-engine
+-vendor/lib/libthermalclient.so
+-vendor/lib64/libthermalclient.so
+vendor/lib64/libthermalioctl.so
